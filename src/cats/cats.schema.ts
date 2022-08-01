@@ -1,17 +1,16 @@
-import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Document, SchemaOptions } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
-const option: SchemaOptions = {
+const options: SchemaOptions = {
   timestamps: true,
 };
 
-export type CatDocument = Cat & Document;
-
-@Schema(option)
-export class Cat {
+@Schema(options)
+export class Cat extends Document {
   @ApiProperty({
-    example: 'example@gmail.com',
+    example: 'amamov@kakao.com',
     description: 'email',
     required: true,
   })
@@ -23,12 +22,12 @@ export class Cat {
   @IsNotEmpty()
   email: string;
 
-  @Prop({
+  @ApiProperty({
+    example: 'amamov',
+    description: 'name',
     required: true,
   })
-  @ApiProperty({
-    example: 'imcat',
-    description: 'name',
+  @Prop({
     required: true,
   })
   @IsString()
@@ -36,8 +35,8 @@ export class Cat {
   name: string;
 
   @ApiProperty({
-    example: '123123',
-    description: 'passward',
+    example: '23810',
+    description: 'password',
     required: true,
   })
   @Prop({
@@ -51,13 +50,14 @@ export class Cat {
   @IsString()
   imgUrl: string;
 
-  readonly readOnlyData: { email: string; name: string };
+  readonly readOnlyData: { id: string; email: string; name: string };
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);
 
 CatSchema.virtual('readOnlyData').get(function (this: Cat) {
   return {
+    id: this.id,
     email: this.email,
     name: this.name,
   };

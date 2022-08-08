@@ -1,7 +1,7 @@
 import { Cat } from './cats.schema';
 import {
   Body,
-  Req,
+  UploadedFile,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -18,6 +18,7 @@ import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { CatCurrentDto } from './dto/cats.current.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -58,8 +59,10 @@ export class CatsController {
   }
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
-  @Post('upload/cats')
-  uploadCatImg() {
+  @UseInterceptors(FileInterceptor('image'))
+  @Post('upload')
+  uploadCatImg(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
     return 'uploadImg';
   }
 }

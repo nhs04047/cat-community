@@ -27,7 +27,6 @@ const storage = (folder: string): multer.StorageEngine => {
   return multer.diskStorage({
     destination(req, file, cb) {
       //* 어디에 저장할 지
-
       const folderName = path.join(__dirname, '..', `uploads/${folder}`);
 
       cb(null, folderName);
@@ -35,7 +34,6 @@ const storage = (folder: string): multer.StorageEngine => {
 
     filename(req, file, cb) {
       //* 어떤 이름으로 올릴 지
-
       const ext = path.extname(file.originalname);
 
       const fileName = `${path.basename(

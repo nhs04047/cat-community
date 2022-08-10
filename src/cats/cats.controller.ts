@@ -35,7 +35,6 @@ export class CatsController {
   @UseGuards(JwtAuthGuard)
   @Get()
   getCurrentCat(@CurrentUser() cat: CatCurrentDto) {
-    console.log(cat);
     return cat.readOnlyData;
   }
 
@@ -69,5 +68,11 @@ export class CatsController {
     @CurrentUser() cat: Cat,
   ) {
     return this.catsService.uploadImg(cat, files);
+  }
+
+  @ApiOperation({ summary: '모든 고양이 가져오기' })
+  @Get('all')
+  getAllCat() {
+    return this.catsService.getAllCat();
   }
 }

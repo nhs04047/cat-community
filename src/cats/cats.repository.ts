@@ -9,6 +9,10 @@ import { CatRequestDto } from './dto/cats.request.dto';
 export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
+  findAll() {
+    return this.catModel.find();
+  }
+
   async findCatByIdWithoutPassword(
     catId: string,
   ): Promise<CatCurrentDto | null> {

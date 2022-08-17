@@ -1,16 +1,24 @@
 import { CatCurrentDto } from './dto/cats.current.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Cat } from './cats.schema';
 import { CatRequestDto } from './dto/cats.request.dto';
+import { Model } from 'mongoose';
+import { CommentsShcema } from 'src/comments/comments.schema';
 
 @Injectable()
 export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
-  findAll() {
-    return this.catModel.find();
+  async findAll() {
+    const CommentsModel = mongoose.model('comments', CommentsShcema);
+
+    const result = await this.catModel
+      .find()
+      .populate('comments', CommentsModel);
+
+    return result;
   }
 
   async findCatByIdWithoutPassword(

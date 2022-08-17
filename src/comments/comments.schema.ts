@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsEmail, IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { Document, SchemaOptions, Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -56,4 +56,4 @@ export class Comments extends Document {
   info: string;
 }
 
-export const CommentsScema = SchemaFactory.createForClass(Comments);
+export const CommentsShcema = SchemaFactory.createForClass(Comments);
